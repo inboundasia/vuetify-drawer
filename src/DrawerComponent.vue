@@ -8,7 +8,7 @@
     <v-sheet
       :width="mWidth"
       :elevation="18"
-      :style="{ 'z-index': $attrs.index + 8 }"
+      :style="{ 'z-index': $attrs.index + 8, width: mWidth }"
       class="drawer"
     >
       <slot />
