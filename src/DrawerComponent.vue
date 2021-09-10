@@ -5,14 +5,14 @@
       class="overlay"
       @click="onOverlayClicked"
     />
-    <v-sheet
+    <div
       :width="mWidth"
       :elevation="18"
       :style="{ 'z-index': $attrs.index + 8, width: mWidth }"
       class="drawer"
     >
       <slot />
-    </v-sheet>
+    </div>
   </div>
 </template>
 
@@ -86,6 +86,13 @@ export default {
   transform: translateX(0px);
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: transform, width, -webkit-transform;
+
+  /** Porting Vuetify Styles */
+  box-shadow: 0px 9px 11px -5px rgb(0 0 0 / 20%),
+    0px 18px 28px 2px rgb(0 0 0 / 14%), 0px 7px 34px 6px rgb(0 0 0 / 12%) !important;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .overlay {
