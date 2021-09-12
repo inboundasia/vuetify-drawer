@@ -2,8 +2,7 @@ import Vue from 'vue'
 import AppDrawer from './AppDrawer'
 
 export default class {
-  constructor(dependency) {
-    this.dependency = dependency
+  constructor() {
     this.instance = undefined
   }
 
@@ -12,8 +11,7 @@ export default class {
     if (!isInstanceExists) {
       const DrawerComponent = Vue.extend(AppDrawer)
       this.instance = new DrawerComponent({
-        parent: window.$nuxt.$root, // 將此元件的父實例指定為當前組件樹的Vue實例
-        ...this.dependency,
+        parent: this.root, // 將此元件的父實例指定為當前組件樹的Vue實例
         $drawer: this,
       }).$mount()
       // document.body.appendChild(this.instance.$el)
@@ -21,6 +19,10 @@ export default class {
         .querySelector('#__nuxt .v-application--wrap')
         .appendChild(this.instance.$el)
     }
+  }
+
+  setDynamicModalContainer(root) {
+    this.root = root
   }
 
   isDomReady() {

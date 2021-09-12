@@ -1429,29 +1429,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "4de4":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var $filter = __webpack_require__("b727").filter;
-var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
-
-// `Array.prototype.filter` method
-// https://tc39.es/ecma262/#sec-array.prototype.filter
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
-  filter: function filter(callbackfn /* , thisArg */) {
-    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-
 /***/ "4df4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4377,37 +4354,6 @@ module.exports =
 
 /***/ }),
 
-/***/ "dbb4":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var DESCRIPTORS = __webpack_require__("83ab");
-var ownKeys = __webpack_require__("56ef");
-var toIndexedObject = __webpack_require__("fc6a");
-var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
-var createProperty = __webpack_require__("8418");
-
-// `Object.getOwnPropertyDescriptors` method
-// https://tc39.es/ecma262/#sec-object.getownpropertydescriptors
-$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
-    var O = toIndexedObject(object);
-    var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-    var keys = ownKeys(O);
-    var result = {};
-    var index = 0;
-    var key, descriptor;
-    while (keys.length > index) {
-      descriptor = getOwnPropertyDescriptor(O, key = keys[index++]);
-      if (descriptor !== undefined) createProperty(result, key, descriptor);
-    }
-    return result;
-  }
-});
-
-
-/***/ }),
-
 /***/ "ddb0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4632,29 +4578,6 @@ module.exports = function (target, src, options) {
   for (var key in src) redefine(target, key, src[key], options);
   return target;
 };
-
-
-/***/ }),
-
-/***/ "e439":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var fails = __webpack_require__("d039");
-var toIndexedObject = __webpack_require__("fc6a");
-var nativeGetOwnPropertyDescriptor = __webpack_require__("06cf").f;
-var DESCRIPTORS = __webpack_require__("83ab");
-
-var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
-var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
-
-// `Object.getOwnPropertyDescriptor` method
-// https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
-    return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
-  }
-});
 
 
 /***/ }),
@@ -5355,82 +5278,6 @@ function _nonIterableRest() {
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
-var es_object_keys = __webpack_require__("b64b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
-var es_array_filter = __webpack_require__("4de4");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
-var es_object_get_own_property_descriptor = __webpack_require__("e439");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("159b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptors.js
-var es_object_get_own_property_descriptors = __webpack_require__("dbb4");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
-
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -5456,7 +5303,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"cbbf4484-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=04f15d08&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"a9f865d0-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=04f15d08&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"__off-document__drawer"}},_vm._l((_vm.components),function(component,index){return _c('DrawerComponent',{key:index,attrs:{"width":_vm.calcWidth(index, component.options || {}),"index":index,"persistent":component.persistent},on:{"pushed":_vm.onPushed,"closed":_vm.onClosed}},[_c(component.component,_vm._b({directives:[{name:"dynamic-events",rawName:"v-dynamic-events",value:(component.listeners),expression:"component.listeners"}],tag:"component"},'component',component.props,false,true))],1)}),1)}
 var staticRenderFns = []
 
@@ -5508,10 +5355,16 @@ function _asyncToGenerator(fn) {
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
 var runtime = __webpack_require__("96cf");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("159b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__("b64b");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.splice.js
 var es_array_splice = __webpack_require__("a434");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"cbbf4484-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/DrawerComponent.vue?vue&type=template&id=0b8e2a0f&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"a9f865d0-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/DrawerComponent.vue?vue&type=template&id=0b8e2a0f&scoped=true&
 var DrawerComponentvue_type_template_id_0b8e2a0f_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"overlay",style:({ 'z-index': _vm.$attrs.index + 7 }),on:{"click":_vm.onOverlayClicked}}),_c('div',{staticClass:"drawer",style:({ 'z-index': _vm.$attrs.index + 8, width: _vm.mWidth }),attrs:{"width":_vm.mWidth,"elevation":18}},[_vm._t("default")],2)])}
 var DrawerComponentvue_type_template_id_0b8e2a0f_scoped_true_staticRenderFns = []
 
@@ -5910,12 +5763,10 @@ var AppDrawer_component = normalizeComponent(
 
 
 
-
 var DrawerManager_default = /*#__PURE__*/function () {
-  function _default(dependency) {
+  function _default() {
     _classCallCheck(this, _default);
 
-    this.dependency = dependency;
     this.instance = undefined;
   }
 
@@ -5926,14 +5777,19 @@ var DrawerManager_default = /*#__PURE__*/function () {
 
       if (!isInstanceExists) {
         var DrawerComponent = external_commonjs_vue_commonjs2_vue_root_Vue_default.a.extend(AppDrawer);
-        this.instance = new DrawerComponent(_objectSpread2(_objectSpread2({
-          parent: window.$nuxt.$root
-        }, this.dependency), {}, {
+        this.instance = new DrawerComponent({
+          parent: this.root,
+          // 將此元件的父實例指定為當前組件樹的Vue實例
           $drawer: this
-        })).$mount(); // document.body.appendChild(this.instance.$el)
+        }).$mount(); // document.body.appendChild(this.instance.$el)
 
         document.querySelector('#__nuxt .v-application--wrap').appendChild(this.instance.$el);
       }
+    }
+  }, {
+    key: "setDynamicModalContainer",
+    value: function setDynamicModalContainer(root) {
+      this.root = root;
     }
   }, {
     key: "isDomReady",
@@ -6032,24 +5888,44 @@ var DrawerManager_default = /*#__PURE__*/function () {
 // CONCATENATED MODULE: ./src/NuxtPlugin.js
 
 
-/* harmony default export */ var NuxtPlugin = (function (_ref, inject) {
-  var app = _ref.app;
-  inject('drawer', new DrawerManager_default({
-    vuetify: app.vuetify,
-    store: app.store,
-    $axios: app.$axios,
-    $dialog: app.$dialog
-  }));
-  external_commonjs_vue_commonjs2_vue_root_Vue_default.a.mixin({
-    beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-      if (this.$drawer) {
-        this.$drawer.$offAllEvents();
-      }
 
-      next();
+var Plugin = {
+  install: function install(Vue) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    if (Vue.prototype.$drawer) {
+      return;
     }
-  });
-});
+
+    var Manager = new DrawerManager_default();
+    Object.defineProperty(Vue.prototype, '$drawer', {
+      get: function get() {
+        var caller = this;
+
+        if (caller instanceof Vue) {
+          var root = caller.$root;
+
+          if (!Manager.root) {
+            Manager.setDynamicModalContainer(root);
+          }
+        }
+
+        return Manager;
+      }
+    });
+    Vue.mixin({
+      beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+        if (this.$drawer) {
+          this.$drawer.$offAllEvents();
+        }
+
+        next();
+      }
+    });
+    Vue.component('AppDrawer', AppDrawer);
+  }
+};
+/* harmony default export */ var NuxtPlugin = (Plugin);
 // CONCATENATED MODULE: ./src/main.js
 
 /* harmony default export */ var main = ({
