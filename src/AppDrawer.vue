@@ -52,7 +52,16 @@ export default {
     }
   },
   methods: {
+    handleEscape(event) {
+      if (!this.instances.length) {
+        document.removeEventListener('keydown', this.handleEscape)
+      } else if (event.key === 'Escape') {
+        this.pop()
+      }
+    },
     onPushed(instance) {
+      document.addEventListener('keydown', this.handleEscape)
+
       this.instances.push(instance)
     },
     onClosed() {
