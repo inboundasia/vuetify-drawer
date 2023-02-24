@@ -5303,12 +5303,12 @@ function _createClass(Constructor, protoProps, staticProps) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"18ff681c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=4bc8de94&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"18ff681c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=8b17599c&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"__off-document__drawer"}},_vm._l((_vm.components),function(component,index){return _c('DrawerComponent',{key:index,attrs:{"width":_vm.calcWidth(index, component.options || {}),"index":index,"persistent":component.persistent},on:{"pushed":_vm.onPushed,"closed":_vm.onClosed}},[_c(component.component,_vm._b({directives:[{name:"dynamic-events",rawName:"v-dynamic-events",value:(component.listeners),expression:"component.listeners"}],tag:"component"},'component',component.props,false,true))],1)}),1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=4bc8de94&
+// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=8b17599c&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
 var es_promise = __webpack_require__("e6cf");
@@ -5684,7 +5684,6 @@ var component = normalizeComponent(
           persistent = _ref.persistent,
           options = _ref.options,
           listeners = _ref.listeners;
-      console.log('push');
       this.components.push({
         component: component,
         props: props,
