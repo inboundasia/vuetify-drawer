@@ -68,9 +68,9 @@ export default {
       this.components.splice(-1, 1)
       this.instances.splice(-1, 1)
     },
-    close(uuid) {
-      const index = this.instances.findIndex(
-        (instance) => instance.uuid === uuid
+    close(componentUuid) {
+      const index = this.components.findIndex(
+        (component) => component.uuid === componentUuid
       )
       if (index !== -1) {
         this.instances[index].close()
