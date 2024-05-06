@@ -44,13 +44,21 @@ export default class {
     const defaultPersistent =
       typeof persistent === 'undefined' ? true : persistent
     this.ensureInstanceExist()
+    const uuid = crypto.randomUUID()
     this.instance.push({
+      uuid,
       component,
       props,
       options,
       listeners,
       persistent: defaultPersistent,
     })
+    return uuid
+  }
+
+  close(uuid) {
+    this.ensureInstanceExist()
+    this.instance.close(uuid)
   }
 
   popAll() {

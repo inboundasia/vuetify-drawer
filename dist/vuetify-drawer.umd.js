@@ -5332,12 +5332,12 @@ function _createClass(Constructor, protoProps, staticProps) {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"18ff681c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=13b834f2&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"11361e62-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=10a3614a&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"__off-document__drawer"}},_vm._l((_vm.components),function(component,index){return _c('DrawerComponent',{key:index,attrs:{"width":_vm.calcWidth(index, component.options || {}),"index":index,"persistent":component.persistent},on:{"pushed":_vm.onPushed,"closed":_vm.onClosed}},[_c(component.component,_vm._b({directives:[{name:"dynamic-events",rawName:"v-dynamic-events",value:(component.listeners),expression:"component.listeners"}],tag:"component"},'component',component.props,false,true))],1)}),1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=13b834f2&
+// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=10a3614a&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
 var es_promise = __webpack_require__("e6cf");
@@ -5396,7 +5396,7 @@ var es_array_splice = __webpack_require__("a434");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find-index.js
 var es_array_find_index = __webpack_require__("c740");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"18ff681c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/DrawerComponent.vue?vue&type=template&id=0b8e2a0f&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"11361e62-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/DrawerComponent.vue?vue&type=template&id=0b8e2a0f&scoped=true&
 var DrawerComponentvue_type_template_id_0b8e2a0f_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"overlay",style:({ 'z-index': _vm.$attrs.index + 7 }),on:{"click":_vm.onOverlayClicked}}),_c('div',{staticClass:"drawer",style:({ 'z-index': _vm.$attrs.index + 8, width: _vm.mWidth }),attrs:{"width":_vm.mWidth,"elevation":18}},[_vm._t("default")],2)])}
 var DrawerComponentvue_type_template_id_0b8e2a0f_scoped_true_staticRenderFns = []
 
@@ -5712,6 +5712,8 @@ var component = normalizeComponent(
       this.instances.splice(-1, 1);
     },
     close: function close(uuid) {
+      // because component and instance should share the same index,
+      // we can safely remove the instance by component index
       var index = this.components.findIndex(function (component) {
         return component.uuid === uuid;
       });
@@ -5873,13 +5875,22 @@ var DrawerManager_default = /*#__PURE__*/function () {
           listeners = _ref.listeners;
       var defaultPersistent = typeof persistent === 'undefined' ? true : persistent;
       this.ensureInstanceExist();
+      var uuid = crypto.randomUUID();
       this.instance.push({
+        uuid: uuid,
         component: component,
         props: props,
         options: options,
         listeners: listeners,
         persistent: defaultPersistent
       });
+      return uuid;
+    }
+  }, {
+    key: "close",
+    value: function close(uuid) {
+      this.ensureInstanceExist();
+      this.instance.close(uuid);
     }
   }, {
     key: "popAll",
