@@ -68,14 +68,25 @@ export default {
       this.components.splice(-1, 1)
       this.instances.splice(-1, 1)
     },
+    close(uuid) {
+      const index = this.components.findIndex(
+        (component) => component.uuid === uuid
+      )
+      if (index !== -1) {
+        this.instances[index].close()
+      }
+    },
     push({ component, props, persistent, options, listeners }) {
+      const uuid = crypto.randomUUID()
       this.components.push({
+        uuid,
         component,
         props,
         options,
         persistent,
         listeners,
       })
+      return uuid
     },
     async pop() {
       await this.instances[this.instances.length - 1].close()
