@@ -69,10 +69,8 @@ export default {
       this.instances.splice(-1, 1)
     },
     close(uuid) {
-      // because component and instance should share the same index,
-      // we can safely remove the instance by component index
-      const index = this.components.findIndex(
-        (component) => component.uuid === uuid
+      const index = this.instances.findIndex(
+        (instance) => instance.uuid === uuid
       )
       if (index !== -1) {
         this.instances[index].close()
