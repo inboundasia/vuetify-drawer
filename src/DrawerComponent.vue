@@ -1,14 +1,14 @@
 <template>
   <div>
     <div
-      :style="{ 'z-index': $attrs.index + 7 }"
+      :style="{ 'z-index': $attrs.index + zIndex }"
       class="overlay"
       @click="onOverlayClicked"
     />
     <div
       :width="mWidth"
       :elevation="18"
-      :style="{ 'z-index': $attrs.index + 8, width: mWidth }"
+      :style="{ 'z-index': $attrs.index + zIndex + 1, width: mWidth }"
       class="drawer"
     >
       <slot />
@@ -28,6 +28,9 @@ export default {
   computed: {
     width() {
       return window.innerWidth <= this.breakPoint ? '100%' : this.$attrs.width
+    },
+    zIndex() {
+      return this.$attrs.zIndex ? this.$attrs.zIndex : 14
     },
   },
   watch: {
