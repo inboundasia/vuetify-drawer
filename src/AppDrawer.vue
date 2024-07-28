@@ -5,6 +5,7 @@
       :key="index"
       :width="calcWidth(index, component.options || {})"
       :index="index"
+      :uuid="component.uuid"
       :persistent="component.persistent"
       @pushed="(vNode) => onPushed(vNode, component)"
       @closed="(vNode) => onClosed(vNode, component)"

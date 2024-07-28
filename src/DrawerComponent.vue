@@ -18,6 +18,12 @@
 
 <script>
 export default {
+  props: {
+    uuid: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       breakPoint: 959,
