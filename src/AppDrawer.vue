@@ -68,12 +68,12 @@ export default {
       this.components.splice(-1, 1)
       this.instances.splice(-1, 1)
     },
-    close(componentUuid) {
+    async close(componentUuid) {
       const index = this.components.findIndex(
         (component) => component.uuid === componentUuid
       )
       if (index !== -1) {
-        this.instances[index].close()
+        await this.instances[index].close()
       }
     },
     push({ component, props, persistent, options, listeners }) {

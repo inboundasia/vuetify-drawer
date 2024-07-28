@@ -53,17 +53,17 @@ export default class {
     })
   }
 
-  close(uuid) {
+  async close(uuid) {
     this.ensureInstanceExist()
-    this.instance.close(uuid)
+    await this.instance.close(uuid)
   }
 
   popAll() {
     this.instance.popAll()
   }
 
-  pop() {
-    this.instance.pop()
+  async pop() {
+    await this.instance.pop()
   }
 
   $on(event, callback) {
