@@ -5368,12 +5368,12 @@ var es_array_concat = __webpack_require__("99af");
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
 var runtime = __webpack_require__("96cf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"70402726-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=c3ce2742&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"70402726-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/AppDrawer.vue?vue&type=template&id=3831ab35&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"__off-document__drawer"}},_vm._l((_vm.components),function(component,index){return _c('DrawerComponent',{key:component.uuid,attrs:{"width":_vm.calcWidth(index, component.options || {}),"index":index,"uuid":component.uuid,"persistent":component.persistent},on:{"pushed":function (vNode) { return _vm.onPushed(vNode, component); },"closed":function (vNode) { return _vm.onClosed(vNode, component); }}},[_c(component.component,_vm._b({directives:[{name:"dynamic-events",rawName:"v-dynamic-events",value:(component.listeners),expression:"component.listeners"}],tag:"component"},'component',component.props,false,true))],1)}),1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=c3ce2742&
+// CONCATENATED MODULE: ./src/AppDrawer.vue?vue&type=template&id=3831ab35&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
@@ -5709,8 +5709,6 @@ var component = normalizeComponent(
       this.instances.push(instance);
     },
     onClosed: function onClosed(vNode, component) {
-      console.log('onClosed vNode', vNode);
-      console.log('onClosed component', component);
       var componentIndex = this.components.findIndex(function (c) {
         return c === component;
       });
