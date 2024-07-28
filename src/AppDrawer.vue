@@ -2,7 +2,7 @@
   <div id="__off-document__drawer">
     <DrawerComponent
       v-for="(component, index) in components"
-      :key="index"
+      :key="component.uuid"
       :width="calcWidth(index, component.options || {})"
       :index="index"
       :uuid="component.uuid"
