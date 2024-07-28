@@ -6,8 +6,8 @@
       :width="calcWidth(index, component.options || {})"
       :index="index"
       :persistent="component.persistent"
-      @pushed="onPushed"
-      @closed="onClosed"
+      @pushed="(vNode) => onPushed(vNode, component)"
+      @closed="(vNode) => onClosed(vNode, component)"
     >
       <component
         :is="component.component"
@@ -64,8 +64,15 @@ export default {
 
       this.instances.push(instance)
     },
-    onClosed() {
-      this.components.splice(-1, 1)
+    onClosed(vNode, component) {
+      const componentIndex = this.components.findIndex((c) => c === component)
+      if (componentIndex !== -1) {
+        this.components.splice(componentIndex, 1)
+      }
+      const vNodeIndex = this.instances.findIndex((v) => v === vNode)
+      if (vNodeIndex !== -1) {
+        this.instances.splice(vNodeIndex, 1)
+      }
       this.instances.splice(-1, 1)
     },
     async close(componentUuid) {
