@@ -73,7 +73,6 @@ export default {
       if (vNodeIndex !== -1) {
         this.instances.splice(vNodeIndex, 1)
       }
-      this.instances.splice(-1, 1)
     },
     async close(componentUuid) {
       const index = this.components.findIndex(
