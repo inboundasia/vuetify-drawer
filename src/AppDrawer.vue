@@ -21,6 +21,7 @@
 
 <script>
 import Vue from 'vue'
+import { v4 as uuidv4 } from 'uuid'
 import DrawerComponent from './DrawerComponent'
 
 export default {
@@ -84,7 +85,7 @@ export default {
       }
     },
     push({ component, props, persistent, options, listeners }) {
-      const uuid = crypto.randomUUID()
+      const uuid = uuidv4()
       this.components.push({
         uuid,
         component,
