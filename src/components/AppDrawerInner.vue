@@ -1,14 +1,14 @@
 <template>
   <div>
     <div
-      :style="{ 'z-index': $attrs.index + zIndex }"
+      :style="{ 'z-index': $attrs.index + 1007 }"
       class="overlay"
       @click="onOverlayClicked"
     />
     <div
       :width="mWidth"
       :elevation="18"
-      :style="{ 'z-index': $attrs.index + zIndex + 1, width: mWidth }"
+      :style="{ 'z-index': $attrs.index + 1008, width: mWidth }"
       class="drawer"
     >
       <slot />
@@ -18,12 +18,6 @@
 
 <script>
 export default {
-  props: {
-    uuid: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       breakPoint: 959,
@@ -34,9 +28,6 @@ export default {
   computed: {
     width() {
       return window.innerWidth <= this.breakPoint ? '100%' : this.$attrs.width
-    },
-    zIndex() {
-      return this.$attrs.zIndex ? this.$attrs.zIndex : 14
     },
   },
   watch: {
@@ -74,7 +65,6 @@ export default {
       }, this.animationDelay)
     },
   },
-  inject: ['DrawerEventHub'],
 }
 </script>
 

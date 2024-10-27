@@ -1,42 +1,24 @@
 {
-    "name": "@inboundasia/vuetify-drawer",
-    "version": "1.0.16",
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build --target lib src/main.js",
-        "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-        "dev": "NODE_ENV=production vue-cli-service build --watch --target lib src/main.js"
-    },
-    "main": "dist/vuetify-drawer.umd.js",
-    "dependencies": {
-        "babel-eslint": "^10.1.0",
-        "core-js": "^3.6.5",
-        "uuid": "^10.0.0",
-        "vue": "^2.6.11"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "~4.5.0",
-        "@vue/cli-service": "~4.5.0",
-        "eslint": "^7.32.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier-vue": "^3.1.0",
-        "eslint-plugin-vue": "^7.16.0",
-        "lint-staged": "^9.5.0",
-        "prettier": "^1.19.1",
-        "vue-template-compiler": "^2.6.11"
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
-    ],
-    "gitHooks": {
-        "pre-commit": "lint-staged"
-    },
-    "lint-staged": {
-        "*.{js,jsx,vue}": [
-            "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-            "git add"
-        ]
-    }
+  "name": "digitspark-drawer",
+  "main": "dist/digitspark-drawer.umd.js",
+  "module": "dist/digitspark-drawer.es.js",
+  "unpkg": "dist/digitspark-drawer.umd.js",
+  "jsdelivr": "dist/digitspark-drawer.umd.js",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0",
+    "vue": "^3.4.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "vite": "^5.4.1",
+    "vite-plugin-css-injected-by-js": "^3.5.1"
+  }
 }
