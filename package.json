@@ -4,7 +4,7 @@
   "module": "dist/digitspark-drawer.es.js",
   "unpkg": "dist/digitspark-drawer.umd.js",
   "jsdelivr": "dist/digitspark-drawer.umd.js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
