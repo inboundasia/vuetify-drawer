@@ -12,5 +12,4 @@ const install = (app) => {
 };
 
 // Export the component and install function
-export default { install };
 export { AppDrawer, AppDrawerInner, useAppDrawer };

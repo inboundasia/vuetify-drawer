@@ -20,7 +20,7 @@ export default function useAppDrawer() {
       return uuid
     },
     async close(componentUuid) {
-      const index = components.valie.findIndex(
+      const index = components.value.findIndex(
         (component) => component.uuid === componentUuid
       )
       if (index !== -1) {

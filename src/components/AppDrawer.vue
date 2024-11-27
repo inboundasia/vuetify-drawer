@@ -2,7 +2,7 @@
   <div id="__off-document__drawer">
     <AppDrawerInner
       v-for="(component, index) in components"
-      :key="index"
+      :key="component.uuid"
       :width="calcWidth(index, component.options || {})"
       :index="index"
       :persistent="component.persistent || true"
@@ -12,7 +12,8 @@
       <!-- https://v3-migration.vuejs.org/breaking-changes/listeners-removed.html -->
       <!-- https://stackoverflow.com/a/71450781 -->
       <component
-        :is="{ ...component.component }"
+        :key="component.uuid"
+        :is="component.component"
         v-bind.sync="component.props"
       />
     </AppDrawerInner>
@@ -20,7 +21,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, markRaw } from 'vue';
 import AppDrawerInner from './AppDrawerInner.vue';
 import useAppDrawer from '../composables/useAppDrawer';
 const { components, instances, pop } = useAppDrawer()
