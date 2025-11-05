@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { ref } from 'vue'
+import { ref, markRaw } from 'vue'
 
 const components = ref([])
 const instances = ref([])
@@ -12,7 +12,7 @@ export default function useAppDrawer() {
       const uuid = uuidv4()
       components.value.push({
         uuid,
-        component,
+        component: markRaw(component),
         props,
         persistent,
         options,
