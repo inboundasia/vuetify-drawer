@@ -2,6 +2,14 @@
   "name": "digitspark-drawer",
   "main": "dist/digitspark-drawer.umd.js",
   "module": "dist/digitspark-drawer.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/digitspark-drawer.es.js",
+      "require": "./dist/digitspark-drawer.umd.js",
+      "default": "./dist/digitspark-drawer.es.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "unpkg": "dist/digitspark-drawer.umd.js",
   "jsdelivr": "dist/digitspark-drawer.umd.js",
   "version": "2.0.2",
