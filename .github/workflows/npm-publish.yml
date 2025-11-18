@@ -14,10 +14,10 @@ jobs:
       contents: read
       id-token: write
 
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
     steps:
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Checkout
         uses: actions/checkout@v4
 
