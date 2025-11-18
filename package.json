@@ -26,7 +26,6 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "uuid": "^10.0.0",
     "vue": "^3.4.37"
   },
   "devDependencies": {
