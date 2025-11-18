@@ -16,7 +16,7 @@
   },
   "unpkg": "dist/vuetify-drawer.umd.js",
   "jsdelivr": "dist/vuetify-drawer.umd.js",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
