@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.js',
-      name: 'DigitSparkDrawer',
-      fileName: (format) => `digitspark-drawer.${format}.js`,
+      name: 'VuetifyDrawer',
+      fileName: (format) => `vuetify-drawer.${format}.js`,
       formats: ['es', 'umd'], // Ensure both ES module and UMD builds
     },
     rollupOptions: {

@@ -1,17 +1,17 @@
 {
-  "name": "digitspark-drawer",
-  "main": "dist/digitspark-drawer.umd.js",
-  "module": "dist/digitspark-drawer.es.js",
+  "name": "@inboundasia/vuetify-drawer",
+  "main": "dist/vuetify-drawer.umd.js",
+  "module": "dist/vuetify-drawer.es.js",
   "exports": {
     ".": {
-      "import": "./dist/digitspark-drawer.es.js",
-      "require": "./dist/digitspark-drawer.umd.js",
-      "default": "./dist/digitspark-drawer.es.js"
+      "import": "./dist/vuetify-drawer.es.js",
+      "require": "./dist/vuetify-drawer.umd.js",
+      "default": "./dist/vuetify-drawer.es.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "unpkg": "dist/digitspark-drawer.umd.js",
-  "jsdelivr": "dist/digitspark-drawer.umd.js",
+  "unpkg": "dist/vuetify-drawer.umd.js",
+  "jsdelivr": "dist/vuetify-drawer.umd.js",
   "version": "2.0.4",
   "type": "module",
   "scripts": {
