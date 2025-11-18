@@ -2,6 +2,10 @@
   "name": "@inboundasia/vuetify-drawer",
   "main": "dist/vuetify-drawer.umd.js",
   "module": "dist/vuetify-drawer.es.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inboundasia/vuetify-drawer"
+  },
   "exports": {
     ".": {
       "import": "./dist/vuetify-drawer.es.js",
