@@ -8,8 +8,18 @@
     <div
       :width="mWidth"
       :elevation="18"
-      :style="{ 'z-index': $attrs.index + 1008, width: mWidth }"
+      :style="{
+        'z-index': $attrs.index + 1008,
+        width: mWidth,
+        'background-color': isDark ? 'rgb(30, 30, 30)' : '#ffffff',
+        color: isDark ? 'rgba(255, 255, 255, 0.87)' : 'rgba(0, 0, 0, 0.87)',
+        'border-color': isDark ? 'rgb(30, 30, 30)' : '#ffffff'
+      }"
       class="drawer"
+      :class="{
+        'drawer--dark': isDark,
+        'drawer--light': !isDark
+      }"
     >
       <slot />
     </div>
@@ -17,12 +27,17 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
+
 export default {
   data() {
     return {
       breakPoint: 959,
       animationDelay: 200,
       mWidth: 0,
+      isDark: false,
+      themeObserver: null,
+      mediaQuery: null,
     }
   },
   computed: {
@@ -38,6 +53,17 @@ export default {
     },
   },
   async mounted() {
+    // Detect theme from Vuetify if available
+    this.detectTheme()
+
+    // Watch for theme changes
+    this.watchTheme()
+
+    // Re-detect theme after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      this.detectTheme()
+    }, 100)
+
     await setTimeout(() => {
       this.mWidth = this.width
     }, this.animationDelay)
@@ -48,8 +74,125 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleWindowResize)
+
+    // Clean up observers
+    if (this.themeObserver) {
+      this.themeObserver.disconnect()
+    }
+    if (this.mediaQuery) {
+      if (this.mediaQuery.removeEventListener) {
+        this.mediaQuery.removeEventListener('change', this.detectTheme)
+      } else if (this.mediaQuery.removeListener) {
+        this.mediaQuery.removeListener(this.detectTheme)
+      }
+    }
   },
   methods: {
+    detectTheme() {
+      try {
+        if (typeof window === 'undefined') return
+
+        const html = document.documentElement
+        const oldIsDark = this.isDark
+
+        // Method 1: Check document class (Vuetify adds v-theme--dark) - Most reliable
+        if (html.classList.contains('v-theme--dark')) {
+          this.isDark = true
+        } else if (html.classList.contains('v-theme--light')) {
+          this.isDark = false
+        }
+        // Method 2: Check data attribute
+        else {
+          const themeAttr = html.getAttribute('data-v-theme')
+          if (themeAttr === 'dark') {
+            this.isDark = true
+          } else if (themeAttr === 'light') {
+            this.isDark = false
+          }
+          // Method 3: Check for dark class
+          else if (html.classList.contains('dark') || document.body.classList.contains('dark')) {
+            this.isDark = true
+          }
+          // Method 4: Try to get from Vuetify instance
+          else {
+            try {
+              const instance = getCurrentInstance()
+              if (instance) {
+                const vuetify = instance.appContext?.config?.globalProperties?.$vuetify
+                if (vuetify?.theme?.global?.name) {
+                  const themeName = typeof vuetify.theme.global.name === 'object'
+                    ? vuetify.theme.global.name.value
+                    : vuetify.theme.global.name
+                  this.isDark = themeName === 'dark'
+                }
+              }
+            } catch (e) {
+              // Continue to next method
+            }
+          }
+        }
+
+        // Method 5: Check prefers-color-scheme (last resort, only if not set)
+        if (this.isDark === oldIsDark && !html.classList.contains('v-theme--dark') && !html.classList.contains('v-theme--light')) {
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            this.isDark = true
+          } else {
+            this.isDark = false
+          }
+        }
+
+        // Force reactivity update if changed
+        if (oldIsDark !== this.isDark) {
+          this.$forceUpdate()
+        }
+      } catch (e) {
+        // Silently fail and use default
+        console.debug('Could not detect theme:', e)
+        this.isDark = false
+      }
+    },
+    watchTheme() {
+      if (typeof window === 'undefined') return
+
+      // Watch for Vuetify theme changes via MutationObserver
+      this.themeObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' &&
+              (mutation.attributeName === 'class' || mutation.attributeName === 'data-v-theme')) {
+            this.detectTheme()
+          }
+        })
+      })
+
+      // Observe html element for class changes
+      if (document.documentElement) {
+        this.themeObserver.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class', 'data-v-theme'],
+          subtree: false
+        })
+      }
+
+      // Also observe body for dark class
+      if (document.body) {
+        this.themeObserver.observe(document.body, {
+          attributes: true,
+          attributeFilter: ['class'],
+          subtree: false
+        })
+      }
+
+      // Watch for prefers-color-scheme changes
+      if (window.matchMedia) {
+        this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        if (this.mediaQuery.addEventListener) {
+          this.mediaQuery.addEventListener('change', this.detectTheme)
+        } else if (this.mediaQuery.addListener) {
+          // Fallback for older browsers
+          this.mediaQuery.addListener(this.detectTheme)
+        }
+      }
+    },
     handleWindowResize() {
       this.mWidth = window.innerWidth <= this.breakPoint ? '100%' : this.width
     },
@@ -89,6 +232,17 @@ export default {
   /** Porting Vuetify Styles */
   box-shadow: 0px 9px 11px -5px rgb(0 0 0 / 20%),
     0px 18px 28px 2px rgb(0 0 0 / 14%), 0px 7px 34px 6px rgb(0 0 0 / 12%) !important;
+}
+
+.drawer--dark {
+  background-color: rgb(30, 30, 30);
+  border-color: rgb(30, 30, 30);
+  color: rgba(255, 255, 255, 0.87);
+  box-shadow: 0px 9px 11px -5px rgb(0 0 0 / 40%),
+    0px 18px 28px 2px rgb(0 0 0 / 30%), 0px 7px 34px 6px rgb(0 0 0 / 25%) !important;
+}
+
+.drawer--light {
   background-color: #ffffff;
   border-color: #ffffff;
   color: rgba(0, 0, 0, 0.87);
