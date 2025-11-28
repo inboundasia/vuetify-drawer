@@ -92,48 +92,59 @@ export default {
       try {
         if (typeof window === 'undefined') return
 
-        const html = document.documentElement
         const oldIsDark = this.isDark
 
-        // Method 1: Check document class (Vuetify adds v-theme--dark) - Most reliable
-        if (html.classList.contains('v-theme--dark')) {
-          this.isDark = true
-        } else if (html.classList.contains('v-theme--light')) {
-          this.isDark = false
+        // Method 1: Check .v-application element (Vuetify's main container) - Most reliable
+        const vApplication = document.querySelector('.v-application')
+        if (vApplication) {
+          if (vApplication.classList.contains('v-theme--dark')) {
+            this.isDark = true
+          } else if (vApplication.classList.contains('v-theme--light')) {
+            this.isDark = false
+          }
         }
-        // Method 2: Check data attribute
-        else {
+
+        // Method 2: Check documentElement class (fallback)
+        if (this.isDark === oldIsDark) {
+          const html = document.documentElement
+          if (html.classList.contains('v-theme--dark')) {
+            this.isDark = true
+          } else if (html.classList.contains('v-theme--light')) {
+            this.isDark = false
+          }
+        }
+
+        // Method 3: Check data attribute
+        if (this.isDark === oldIsDark) {
+          const html = document.documentElement
           const themeAttr = html.getAttribute('data-v-theme')
           if (themeAttr === 'dark') {
             this.isDark = true
           } else if (themeAttr === 'light') {
             this.isDark = false
           }
-          // Method 3: Check for dark class
-          else if (html.classList.contains('dark') || document.body.classList.contains('dark')) {
-            this.isDark = true
-          }
-          // Method 4: Try to get from Vuetify instance
-          else {
-            try {
-              const instance = getCurrentInstance()
-              if (instance) {
-                const vuetify = instance.appContext?.config?.globalProperties?.$vuetify
-                if (vuetify?.theme?.global?.name) {
-                  const themeName = typeof vuetify.theme.global.name === 'object'
-                    ? vuetify.theme.global.name.value
-                    : vuetify.theme.global.name
-                  this.isDark = themeName === 'dark'
-                }
+        }
+
+        // Method 4: Try to get from Vuetify instance
+        if (this.isDark === oldIsDark) {
+          try {
+            const instance = getCurrentInstance()
+            if (instance) {
+              const vuetify = instance.appContext?.config?.globalProperties?.$vuetify
+              if (vuetify?.theme?.global?.name) {
+                const themeName = typeof vuetify.theme.global.name === 'object'
+                  ? vuetify.theme.global.name.value
+                  : vuetify.theme.global.name
+                this.isDark = themeName === 'dark'
               }
-            } catch (e) {
-              // Continue to next method
             }
+          } catch (e) {
+            // Continue to next method
           }
         }
 
         // Method 5: Check prefers-color-scheme (last resort, only if not set)
-        if (this.isDark === oldIsDark && !html.classList.contains('v-theme--dark') && !html.classList.contains('v-theme--light')) {
+        if (this.isDark === oldIsDark) {
           if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             this.isDark = true
           } else {
@@ -164,20 +175,21 @@ export default {
         })
       })
 
-      // Observe html element for class changes
-      if (document.documentElement) {
-        this.themeObserver.observe(document.documentElement, {
+      // Observe .v-application element for class changes (primary method)
+      const vApplication = document.querySelector('.v-application')
+      if (vApplication) {
+        this.themeObserver.observe(vApplication, {
           attributes: true,
           attributeFilter: ['class', 'data-v-theme'],
           subtree: false
         })
       }
 
-      // Also observe body for dark class
-      if (document.body) {
-        this.themeObserver.observe(document.body, {
+      // Observe html element for class changes (fallback)
+      if (document.documentElement) {
+        this.themeObserver.observe(document.documentElement, {
           attributes: true,
-          attributeFilter: ['class'],
+          attributeFilter: ['class', 'data-v-theme'],
           subtree: false
         })
       }
